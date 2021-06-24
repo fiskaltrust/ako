@@ -1,0 +1,53 @@
+.ft-ako-upload-form-overlay {
+  outline: 2px dashed #92b0b3;
+  outline-offset: -10px;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.ft-ako-upload-form-overlay-content {
+  width: 100%;
+  height: 100%;
+  z-index: 9999999;
+  background: whitesmoke;
+  opacity: 1;
+  display: none;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.ft-ako-upload-form-overlay:hover > .ft-ako-upload-form-overlay-content {
+  display: flex;
+}
+
+.ft-ako-upload-form-button:active  {
+  box-shadow: 0px 4px 8px rgba(darken(dodgerblue, 30%));
+  transform: scale(.98);
+}
+
+.ft-ako-upload-form-button-icon {
+  opacity: 1;
+  width: 100%;
+  height: 80px;
+  display: block;
+  margin-bottom: 40px;
+  z-index: -1;
+}
+
+.ft-ako-upload-form-overlay-contentn.success {
+  background: #60A917;
+}
+
+.ft-ako-upload-form-overlay-content.failed {
+  background: #DA3F2F;
+  color: white;
+  outline: 2px dashed #b99999;
+}
+
+.ft-ako-upload-form-overlay-content.uploading {
+  background: lightskyblue;
+}

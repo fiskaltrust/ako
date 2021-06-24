@@ -1,0 +1,166 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab" type="text/css" media="all">
+    <link rel="stylesheet" href="ako.css" type="text/css" media="all">
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        body {
+            font-family: 'Roboto Slab', 'Roboto', 'Open Sans', Arial, Helvetica, sans-serif;
+            font-weight: 200;
+            color: #676a6c;
+            font-size: 14px;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        .wrapper {
+            justify-content: space-between;
+            height: 100%;
+            width: 100%;
+        }
+
+        .flex-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .flex-row {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            height: 200px;
+        }
+
+        .main {
+            padding-left: 650px;
+            padding-right: 650px;
+        }
+
+        .upload-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-stamp-ft {
+            position: absolute;
+            width: 350px;
+            left: -55px;
+            top: -55px;
+            opacity: 0.3;
+            z-index: -1000;
+            overflow: hidden;
+        }
+
+        .logo-ako {
+            margin-top: 50px;
+            min-width: 334px;
+        }
+
+        .logo-fiskaltrust-audicon {
+            width: 300px;
+        }
+
+        .logo-audicon {
+            max-width: 100%;
+            height: 3em;
+            margin-top: 20px;
+        }
+
+        .footer a {
+            color: #05b3db;
+            text-decoration: none;
+        }
+
+        .header-item {
+            flex: 1 0 0;
+            padding-left: 150px;
+            padding-right: 150px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            padding-top: 0;
+            padding: 20px;
+            padding-bottom: 10px;
+            padding-left: 600px;
+            padding-right: 600px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper flex-column">
+
+        <div class="header">
+
+            <div class="logo-stamp header-item">
+                <img src="images/logo-fiskaltrust-seal.png" class="logo-stamp-ft" />
+            </div>
+
+            <div class="logo-ako header-item">
+                <a href="https://www.fiskaltrust.de">
+                    <img src="images/logo-fiskaltrust.png" />
+                </a>
+            </div>
+
+            <div class="logo-fiskaltrust-audicon header-item">
+
+            </div>
+
+        </div>
+
+        <div class="main">
+            <h2>Problem: Nachweis für Prüfung</h2>
+            <p>Betreiber elektronischer Kassensysteme sind gesetzlich dazu verpflichtet, Kassendaten über den
+                gesamten aufbewahrungspflichtigen Zeitraum von 10 Jahren, unveränderbar zu archivieren und
+                diese im Falle einer Prüfung unverzüglich in maschinell les- und auswertbarer Form zur Verfügung
+                zu stellen. Bei Nichtbeachtung der Anforderungen können empfindliche Strafen drohen.</p>
+            <h2>Lösung: AKO Kassenarchiv</h2>
+            <p>Durch eine Archivierung der Kassendaten im AKO Kassenarchiv werden die Daten
+                revisionssicher gespeichert und können jederzeit im gesetzlich vorgeschriebenen Format DSFinV-K
+                bereitgestellt werden.</p>
+        </div>
+
+        <div class="upload-area" id="ako">
+            <img src="images/ako.png" style="width:auto" />
+        </div>
+
+        <div class="footer">
+            <span>fiskaltrust gmbh • Toulouser Allee 19a • 10117 Düsseldorf •
+                <a href="mailto:sales@fiskaltrust.de">sales@fiskaltrust.de</a> • <a
+                    href="https://www.fiskaltrust.de">www.ﬁskaltrust.de</a></span>
+        </div>
+
+    </div>
+    <script src="ako.js"></script>
+</body>
+
+</html>
