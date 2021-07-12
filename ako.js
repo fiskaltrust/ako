@@ -132,7 +132,7 @@ function uploadFile(overlayContent, file) {
     
     console.log(file);
     var formData = new FormData();
-    formData.append("file", file);
+    formData.append(file.name, file);
 
     var request = new XMLHttpRequest();
     request.open("POST", "https://api-fileuploader-dev.fiskaltrust.cloud/api/filedrop", true);
