@@ -129,6 +129,8 @@ function setOverlay(overlay) {
 
 function uploadFile(overlayContent, file) {
     overlayContent.style.display = "flex";
+    
+    console.log(file);
     var formData = new FormData();
     formData.append("file", file);
 
