@@ -117,9 +117,7 @@ function openFile(overlayContent) {
 }
 
 function setOverlay(overlay) {
-    console.log("called overlay", overlay);
     let akoDropArea = document.getElementById("ako");
-    console.log(akoDropArea);
     overlay.style.position = "absolute";
     overlay.style.width = akoDropArea.offsetWidth;
     overlay.style.height = akoDropArea.offsetHeight;
@@ -135,7 +133,7 @@ function uploadFile(overlayContent, file) {
     formData.append(file.name, file);
 
     var request = new XMLHttpRequest();
-    request.open("POST", "https://api-fileuploader-dev.fiskaltrust.cloud/api/filedrop", true);
+    request.open("POST", "https://ako-api-dev.fiskaltrust.de/api/filedrop", true);
 
     request.upload.addEventListener("progress", function (e) {
         if (e.lengthComputable) {
