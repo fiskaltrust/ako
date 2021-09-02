@@ -130,7 +130,7 @@ function uploadFile(overlayContent, file) {
     
     console.log(file);
     var formData = new FormData();
-    formData.append(file.name, file);
+    formData.append("file", file);
 
     var request = new XMLHttpRequest();
     request.open("POST", "https://ako-api-dev.fiskaltrust.de/api/filedrop", true);
