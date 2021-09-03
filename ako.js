@@ -8,14 +8,38 @@ let uploadBaseComponent = `
     <label for="file"><strong>Click to choose a file</strong><span class="box__dragndrop"></span>.</label>
 </div>
 `;
-let uploadingComponent = `<div style="display: flex;flex-direction:column;" class="ft-ako-upload-form-button"><label for="file"><strong>{0}</label></div>`;
-let successComponent = `<div style="display: flex;flex-direction:column;" class="ft-ako-upload-form-button"><label for="file"><strong>{0}</label><label><strong>Click to restart</strong></label></div>`;
+let uploadingComponent = `<div style="display: flex;flex-direction:column;" class="ft-ako-upload-form-button"><label for="file"><strong>{0}% uploaded</label></div>`;
+let successComponent = `<div style="display: flex;flex-direction:column;" class="ft-ako-upload-form-button-success">
+        <p>Upload succeeded. Please hand over the text bellow to your consultant to gain access to the report.</p>
+        <p id="result-id">{0}</p>
+    </div>`;
 let failedComponent = `<div style="display: flex;flex-direction:column;" class="ft-ako-upload-form-button"><label for="file"><strong>An error occured while uploading. {0}</label><label><strong>Click to upload more files</strong></label></div>`;
 let uploaded = false;
 
-document.addEventListener("DOMContentLoaded", function () {
-    var self = this;
 
+let modal = `
+<div id="modal" class="modal">
+
+  <div class="modal-content">
+    <span class="close" id="close-button">&times;</span>
+    <p>The upload has been finished. You can copy the bellow Identifier and transmit it to your consultant for further information on the validity.</p>
+    <p id="upload-result"></p>
+  </div>
+
+</div>
+`
+
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    resetOverlay(this);
+});
+
+function resetOverlay(self) {
     self.overlay = document.createElement("div");
     self.overlay.classList.add("ft-ako-upload-form-overlay")
 
@@ -23,7 +47,6 @@ document.addEventListener("DOMContentLoaded", function () {
     overlayContent.innerHTML = uploadBaseComponent;
     overlayContent.classList.add("ft-ako-upload-form-overlay-content")
     overlayContent.addEventListener("click", function (e) {
-        console.log("gotclick")
         if (uploaded) {
             self.overlayContent.classList.remove("succeeded");
             self.overlayContent.classList.remove("failed");
@@ -35,6 +58,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     self.overlayContent = overlayContent;
     self.overlay.appendChild(overlayContent)
+
+    let div = document.createElement('div');
+    div.innerHTML = modal;
+    self.overlay.appendChild(div)
+
 
     self.overlay.addEventListener('drag', function (e) {
         e.preventDefault();
@@ -49,45 +77,30 @@ document.addEventListener("DOMContentLoaded", function () {
     self.overlay.addEventListener('dragend', function (e) {
         e.preventDefault();
         e.stopPropagation();
+        self.overlayContent.style.display = "none";
     });
 
     self.overlay.addEventListener('dragover', function (e) {
         e.preventDefault();
         e.stopPropagation();
-    });
-
-    self.overlay.addEventListener('dragenter', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-    });
-
-    self.overlay.addEventListener('dragleave', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-    });
-
-    self.overlay.addEventListener('drop', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-    });
-
-    self.overlay.addEventListener('dragover', function (e) {
         self.overlayContent.style.display = "flex";
     });
 
     self.overlay.addEventListener('dragenter', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
         self.overlayContent.style.display = "flex";
     });
 
     self.overlay.addEventListener('dragleave', function (e) {
-        self.overlayContent.style.display = "none";
-    });
-
-    self.overlay.addEventListener('dragend', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
         self.overlayContent.style.display = "none";
     });
 
     self.overlay.addEventListener('drop', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
         droppedFiles = e.dataTransfer.files;
         if (droppedFiles.length == 0) {
             self.overlayContent.style.display = "none";
@@ -98,10 +111,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.body.appendChild(self.overlay);
 
+    document.getElementById("close-button").addEventListener('click', function () {
+        document.getElementById("modal").style.display = "none"
+    })
+
     window.onresize = (e) => setOverlay(self.overlay);
 
     setTimeout(function () { setOverlay(self.overlay); }, 200);
-});
+}
 
 function openFile(overlayContent) {
     let input = document.getElementById("ft-ako-upload-form-file-input");
@@ -127,18 +144,19 @@ function setOverlay(overlay) {
 
 function uploadFile(overlayContent, file) {
     overlayContent.style.display = "flex";
-    
-    console.log(file);
+
     var formData = new FormData();
     formData.append("file", file);
 
     var request = new XMLHttpRequest();
     request.open("POST", "https://ako-api-dev.fiskaltrust.de/api/filedrop", true);
 
+    let innerHTML = overlayContent.innerHTML;
+
     request.upload.addEventListener("progress", function (e) {
         if (e.lengthComputable) {
             var percentComplete = (e.loaded || e.position) / e.total;
-            overlayContent.innerHTML = uploadingComponent.replace("{0}", percentComplete);
+            overlayContent.innerHTML = uploadingComponent.replace("{0}", percentComplete * 100);
             overlayContent.classList.add("uploading");
         }
     }, false);
@@ -146,8 +164,9 @@ function uploadFile(overlayContent, file) {
     request.onload = function () {
         overlayContent.classList.remove("uploading");
         if (request.status >= 200 && request.status < 300) {
-            overlayContent.innerHTML = successComponent.replace("{0}", request.responseText);
-            overlayContent.classList.add("success");
+            document.getElementById("modal").style.display = "block"
+            document.getElementById("upload-result").innerText = request.responseText
+            overlayContent.innerHTML = innerHTML;
         } else {
             overlayContent.innerHTML = failedComponent.replace("{0}", request.responseText);
             overlayContent.classList.add("failed");
